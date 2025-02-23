@@ -1,6 +1,6 @@
 Name: AWS Multienvironemnt Deployment
 
-#on:
+on:
   push:
     branches:
       - dev          # Auto-deploy to Dev
