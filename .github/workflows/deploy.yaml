@@ -5,18 +5,18 @@ on:
     branches:
       # - dev          # Auto-deploy to Dev
       # - uat          # Auto-deploy to UAT
-      # - prod         # Requires manual approval for Production
-       - main      
+       - prod         # Requires manual approval for Production
+      # - main      
 
   pull_request:
     branches:
-      # - production   # Run tests before merging into production
-      - main   # Run tests before merging into main      
+      - production   # Run tests before merging into production
+      #- main   # Run tests before merging into main      
 
-  # workflow_dispatch: # Allows manual trigger
+  workflow_dispatch: # Allows manual trigger
 
-  # env:
-  #    AWS_REGION: ap-southeast-1
+  #  env:
+  #     AWS_REGION: ap-southeast-1
 
 jobs:
   # deploy_dev:
@@ -75,7 +75,7 @@ jobs:
     # if: github.ref == 'refs/heads/prod'
     runs-on: ubuntu-latest
     # needs: deploy_uat  # Ensures UAT is deployed before PROD
-    # environment: production  # Requires manual approval
+    environment: production  # Requires manual approval
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -102,11 +102,6 @@ jobs:
 
       # - name: Manual Approval Required
       #   uses: hmarr/auto-approve-action@v3
-
-      # - name: Install Terraform
-      #   uses: hashicorp/setup-terraform@v2
-      #   with:
-      #     terraform_version: 1.10.1 # Specify the Terraform version you need
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2      
