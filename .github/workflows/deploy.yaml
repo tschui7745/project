@@ -5,13 +5,14 @@ on:
     branches:
       # - dev          # Auto-deploy to Dev
       # - uat          # Auto-deploy to UAT
-      - prod         # Requires manual approval for Production
+      # - prod         # Requires manual approval for Production
+       - main      
 
-  pull_request:
-    branches:
-      - production   # Run tests before merging into production
+  # pull_request:
+  #   branches:
+  #     - production   # Run tests before merging into production
 
-  workflow_dispatch: # Allows manual trigger
+  # workflow_dispatch: # Allows manual trigger
 
   env:
     AWS_REGION: ap-southeast-1
@@ -70,10 +71,10 @@ jobs:
   #       run: terraform apply -auto-approve
 
   deploy_prod:
-    if: github.ref == 'refs/heads/prod'
+    # if: github.ref == 'refs/heads/prod'
     runs-on: ubuntu-latest
     # needs: deploy_uat  # Ensures UAT is deployed before PROD
-    environment: production  # Requires manual approval
+    # environment: production  # Requires manual approval
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
