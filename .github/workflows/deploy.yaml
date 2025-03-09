@@ -13,7 +13,7 @@ on:
       # - production   # Run tests before merging into production
       - main   # Run tests before merging into main      
 
-  workflow_dispatch: # Allows manual trigger
+  # workflow_dispatch: # Allows manual trigger
 
   # env:
   #    AWS_REGION: ap-southeast-1
@@ -103,13 +103,19 @@ jobs:
       # - name: Manual Approval Required
       #   uses: hmarr/auto-approve-action@v3
 
-      - name: Install Terraform
-        uses: hashicorp/setup-terraform@v2
-        with:
-          terraform_version: 1.10.1 # Specify the Terraform version you need
+      # - name: Install Terraform
+      #   uses: hashicorp/setup-terraform@v2
+      #   with:
+      #     terraform_version: 1.10.1 # Specify the Terraform version you need
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2      
 
       - name: Terraform Init
         run: terraform init
+
+      - name: Terraform Plan
+        run: terraform plan        
 
       - name: Terraform Apply (Prod)
         run: terraform apply -auto-approve
