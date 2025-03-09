@@ -13,7 +13,7 @@ on:
       #- production   # Run tests before merging into production
       - main   # Run tests before merging into main      
 
-  workflow_dispatch: # Allows manual trigger
+  # workflow_dispatch: # Allows manual trigger
 
   #  env:
   #     AWS_REGION: ap-southeast-1
@@ -75,7 +75,7 @@ jobs:
     # if: github.ref == 'refs/heads/prod'
     runs-on: ubuntu-latest
     # needs: deploy_uat  # Ensures UAT is deployed before PROD
-    environment: production  # Requires manual approval
+    # environment: production  # Requires manual approval
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -87,6 +87,31 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           # aws-region: ${{ env.AWS_REGION }}
           aws-region: ap-southeast-1
+
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20 # Specify the Node.js version you need
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Install Snyk
+        run: npm install -g snyk
+
+      - name: Authenticate Snyk
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        run: snyk auth $SNYK_TOKEN
+  
+      - name: Run Snyk code test
+        run: snyk code test
+
+      - name: Run Snyk iac test
+        run: snyk iac test
+
+      - name: Run Snyk test
+        run: snyk test     
 
       # - name: Run Linting
       #   run: npm run lint
@@ -103,20 +128,6 @@ jobs:
       # - name: Manual Approval Required
       #   uses: hmarr/auto-approve-action@v3
 
-      - name: Install dependencies
-        run: npm install
-
-      - name: Install Snyk
-        run: npm install -g snyk
-
-      - name: Authenticate Snyk
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        run: snyk auth $SNYK_TOKEN
-
-      - name: Run Snyk test
-        run: snyk test
-
       # - name: Setup Terraform
       #   uses: hashicorp/setup-terraform@v2      
 
@@ -126,5 +137,5 @@ jobs:
       # - name: Terraform Plan
       #   run: terraform plan        
 
-      # - name: Terraform Apply (Prod)
-      #   run: terraform apply -auto-approve
+      - name: Terraform Apply (Prod)
+        run: terraform apply -auto-approve
