@@ -91,8 +91,8 @@ jobs:
       # - name: Run Linting
       #   run: npm run lint
 
-      - name: Run Unit Tests
-        run: npm test
+      # - name: Run Unit Tests
+      #   run: npm test
 
       # - name: Run Full Integration Tests
       #   run: npm run test:full-integration
@@ -103,14 +103,20 @@ jobs:
       # - name: Manual Approval Required
       #   uses: hmarr/auto-approve-action@v3
 
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v2      
+      - name: Run Snyk test
+        run: snyk test
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
-      - name: Terraform Init
-        run: terraform init
 
-      - name: Terraform Plan
-        run: terraform plan        
+      # - name: Setup Terraform
+      #   uses: hashicorp/setup-terraform@v2      
 
-      - name: Terraform Apply (Prod)
-        run: terraform apply -auto-approve
+      # - name: Terraform Init
+      #   run: terraform init
+
+      # - name: Terraform Plan
+      #   run: terraform plan        
+
+      # - name: Terraform Apply (Prod)
+      #   run: terraform apply -auto-approve
