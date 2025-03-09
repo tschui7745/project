@@ -108,6 +108,8 @@ jobs:
         with:
           terraform_version: 1.10.1 # Specify the Terraform version you need
 
+      - name: Terraform Init
+        run: terraform init
+
       - name: Terraform Apply (Prod)
         run: terraform apply -auto-approve
-
