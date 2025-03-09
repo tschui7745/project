@@ -8,9 +8,10 @@ on:
       # - prod         # Requires manual approval for Production
        - main      
 
-  # pull_request:
-  #   branches:
-  #     - production   # Run tests before merging into production
+  pull_request:
+    branches:
+      # - production   # Run tests before merging into production
+      - main   # Run tests before merging into main      
 
   # workflow_dispatch: # Allows manual trigger
 
