@@ -13,7 +13,7 @@ on:
       # - production   # Run tests before merging into production
       - main   # Run tests before merging into main      
 
-  # workflow_dispatch: # Allows manual trigger
+  workflow_dispatch: # Allows manual trigger
 
   # env:
   #    AWS_REGION: ap-southeast-1
